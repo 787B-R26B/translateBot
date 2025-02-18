@@ -21,7 +21,7 @@ const LangDetect = require("langdetect");
 const api_url =
   "https://script.google.com/macros/s/AKfycbyyEHtJKscfcpMqR7msk0Gpr3UvRmupKK5rw1okJf9NERTXghs0cxLSXF9WQBYlolC9/exec?";
 const prefix = "!";
-
+let CHID = null
 client.on("ready", (message) => {
   console.log("discord bot is ready!");
   setInterval(() => {
@@ -34,7 +34,7 @@ client.on("ready", (message) => {
 client.on("messageCreate", async (message) => {
   console.log(message.content);
   if (message.author.id == client.user.id) return;
-  if (message.channel.id.toString() === "1284935799560732764") {
+  if (message.channel.id.toString() === CHID) {
     const msg = message.content;
     console.log(message.channel.id);
 
@@ -71,12 +71,13 @@ client.on("messageCreate", async (message) => {
       message.channel.send(res);
     }
   }
-  //    if (!message.content.startWith(prefix)) return;
-  //    const [command, ...args] = message.content.slice(prefix.length).split(/\s+g);
-  //
-  //    if (command === "start") {
-  //        message.channel.send("翻訳を開始します。\nStart translating.");
-  //
-  //    }
+      if (!message.content.startsWith(prefix)) return;
+     const [command, ...args] = message.content.slice(prefix.length).split(/\s+g/);
+  
+      if (command === "add") {
+        CHID = message.channel.id
+          message.channel.send("チャンネルを登録しました");
+
+      }
 });
 client.login(process.env.DISCORD_BOT_TOKEN);
